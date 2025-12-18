@@ -1,26 +1,722 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Lets the dark mode be controlled by a `dark` class on the html element (or parent element) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Typography - Clean, readable fonts for restaurant reviews */
+  --font-body: "Inter", "SF Pro Text", "Segoe UI", "Helvetica Neue", "system-ui",
+    sans-serif;
+  --font-display: "Inter", "SF Pro Display", "Segoe UI", "Helvetica Neue",
+    "system-ui", sans-serif;
+  --font-mono: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
+
+  /* Font Sizes & Line Heights */
+  --text-xxs: 10px;
+  --text-xxs-line-height: 14px;
+
+  --text-xs: 12px;
+  --text-xs-line-height: 16px;
+
+  --text-sm: 14px;
+  --text-sm-line-height: 20px;
+
+  --text-md: 16px;
+  --text-md-line-height: 24px;
+
+  --text-base: 18px;
+  --text-base-line-height: 28px;
+
+  --text-lg: 20px;
+  --text-lg-line-height: 30px;
+
+  --text-xl: 24px;
+  --text-xl-line-height: 36px;
+
+  --text-2xl: 30px;
+  --text-2xl-line-height: 44px;
+
+  --text-3xl: 36px;
+  --text-3xl-line-height: 52px;
+
+  --text-4xl: 48px;
+  --text-4xl-line-height: 64px;
+
+  --text-5xl: 60px;
+  --text-5xl-line-height: 80px;
+
+  --text-6xl: 72px;
+  --text-6xl-line-height: 96px;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extra-bold: 800;
+  --font-weight-black: 900;
+
+  /* Spacing System */
+  --spacing-1xs: 0.125rem; /* 2px */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 0.75rem; /* 12px */
+  --spacing-base: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-2xl: 2.5rem; /* 40px */
+  --spacing-3xl: 3rem; /* 48px */
+  --spacing-4xl: 4rem; /* 64px */
+  --spacing-5xl: 5rem; /* 80px */
+  --spacing-6xl: 6rem; /* 96px */
+  --spacing-7xl: 8rem; /* 128px */
+  --spacing-8xl: 10rem; /* 160px */
+  --spacing-9xl: 12rem; /* 192px */
+  --spacing-10xl: 16rem; /* 256px */
+
+  /* Max Width Variables */
+  --max-w-xs: 20rem; /* 320px */
+  --max-w-sm: 24rem; /* 384px */
+  --max-w-md: 28rem; /* 448px */
+  --max-w-lg: 32rem; /* 512px */
+  --max-w-xl: 36rem; /* 576px */
+  --max-w-2xl: 42rem; /* 672px */
+  --max-w-3xl: 48rem; /* 768px */
+  --max-w-4xl: 56rem; /* 896px */
+  --max-w-5xl: 64rem; /* 1024px */
+  --max-w-6xl: 72rem; /* 1152px */
+  --max-w-7xl: 80rem; /* 1280px */
+
+  /* Border Radius */
+  --rounded-sm: 4px;
+  --rounded-md: 6px;
+  --rounded-lg: 8px;
+  --rounded-xl: 12px;
+  --rounded-2xl: 16px;
+  --rounded-full: 9999px;
+
+  /* Core Color Palette - Wisconsin/Food Inspired */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Neutral Grays */
+  --color-zinc-50: #fafafa;
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-400: #a1a1aa;
+  --color-zinc-500: #71717a;
+  --color-zinc-600: #52525b;
+  --color-zinc-700: #3f3f46;
+  --color-zinc-800: #27272a;
+  --color-zinc-900: #18181b;
+  --color-zinc-950: #09090b;
+
+  /* Curd Yellow - Primary Brand Color */
+  --color-curd-50: #fffbeb;
+  --color-curd-100: #fef3c7;
+  --color-curd-200: #fde68a;
+  --color-curd-300: #fcd34d;
+  --color-curd-400: #fbbf24;
+  --color-curd-500: #f59e0b;
+  --color-curd-600: #d97706;
+  --color-curd-700: #b45309;
+  --color-curd-800: #92400e;
+  --color-curd-900: #78350f;
+
+  /* Wisconsin Red - Accent Color */
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-red-300: #fca5a5;
+  --color-red-400: #f87171;
+  --color-red-500: #ef4444;
+  --color-red-600: #dc2626;
+  --color-red-700: #b91c1c;
+  --color-red-800: #991b1b;
+  --color-red-900: #7f1d1d;
+
+  /* Success Green */
+  --color-green-50: #f0fdf4;
+  --color-green-100: #dcfce7;
+  --color-green-200: #bbf7d0;
+  --color-green-300: #86efac;
+  --color-green-400: #4ade80;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+  --color-green-700: #15803d;
+  --color-green-800: #166534;
+  --color-green-900: #14532d;
+
+  /* Info Blue */
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-200: #bfdbfe;
+  --color-blue-300: #93c5fd;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-blue-900: #1e3a8a;
+
+  /* Semantic Colors - Light Mode */
+  --color-background: var(--color-zinc-50);
+  --color-surface: var(--color-white);
+  --color-surface-elevated: var(--color-white);
+  --color-border: var(--color-zinc-200);
+  --color-border-hover: var(--color-zinc-300);
+
+  --color-text-primary: var(--color-zinc-900);
+  --color-text-secondary: var(--color-zinc-600);
+  --color-text-tertiary: var(--color-zinc-500);
+  --color-text-disabled: var(--color-zinc-400);
+
+  --color-primary: var(--color-curd-500);
+  --color-primary-hover: var(--color-curd-600);
+  --color-primary-active: var(--color-curd-700);
+  --color-primary-light: var(--color-curd-100);
+
+  --color-accent: var(--color-red-600);
+  --color-accent-hover: var(--color-red-700);
+
+  --color-success: var(--color-green-600);
+  --color-success-bg: var(--color-green-50);
+  --color-error: var(--color-red-600);
+  --color-error-bg: var(--color-red-50);
+  --color-info: var(--color-blue-600);
+  --color-info-bg: var(--color-blue-50);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    overscroll-behavior-x: none;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    overscroll-behavior-x: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: var(--text-md);
+    line-height: var(--text-md-line-height);
+  }
+
+  /* Remove number input spinners */
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Buttons use pointer cursor by default */
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  /* Improved focus styles */
+  *:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Dark Mode Color Overrides */
+  .dark {
+    --color-background: var(--color-zinc-950);
+    --color-surface: var(--color-zinc-900);
+    --color-surface-elevated: var(--color-zinc-800);
+    --color-border: var(--color-zinc-800);
+    --color-border-hover: var(--color-zinc-700);
+
+    --color-text-primary: var(--color-zinc-50);
+    --color-text-secondary: var(--color-zinc-400);
+    --color-text-tertiary: var(--color-zinc-500);
+    --color-text-disabled: var(--color-zinc-600);
+
+    --color-primary: var(--color-curd-400);
+    --color-primary-hover: var(--color-curd-300);
+    --color-primary-active: var(--color-curd-200);
+    --color-primary-light: var(--color-curd-900);
+
+    --color-accent: var(--color-red-500);
+    --color-accent-hover: var(--color-red-400);
+
+    --color-success: var(--color-green-500);
+    --color-success-bg: var(--color-green-950);
+    --color-error: var(--color-red-500);
+    --color-error-bg: var(--color-red-950);
+    --color-info: var(--color-blue-500);
+    --color-info-bg: var(--color-blue-950);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Typography Utilities */
+@utility body-xs {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--text-xs);
+  line-height: var(--text-xs-line-height);
+}
+
+@utility body-sm {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-line-height);
+}
+
+@utility body-md {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--text-md);
+  line-height: var(--text-md-line-height);
+}
+
+@utility body-base {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--text-base);
+  line-height: var(--text-base-line-height);
+}
+
+@utility body-lg {
+  font-family: var(--font-body);
+  font-weight: var(--font-weight-normal);
+  font-size: var(--text-lg);
+  line-height: var(--text-lg-line-height);
+}
+
+@utility title-sm {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-sm);
+  line-height: var(--text-sm-line-height);
+}
+
+@utility title-md {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-md);
+  line-height: var(--text-md-line-height);
+}
+
+@utility title-base {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-base);
+  line-height: var(--text-base-line-height);
+}
+
+@utility title-lg {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-lg);
+  line-height: var(--text-lg-line-height);
+}
+
+@utility title-xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-xl);
+  line-height: var(--text-xl-line-height);
+}
+
+@utility title-2xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl-line-height);
+}
+
+@utility title-3xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl-line-height);
+}
+
+@utility title-4xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-extra-bold);
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl-line-height);
+}
+
+@utility title-5xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-extra-bold);
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl-line-height);
+}
+
+@utility title-6xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-extra-bold);
+  font-size: var(--text-6xl);
+  line-height: var(--text-6xl-line-height);
+}
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-black);
+  font-size: var(--text-xl);
+  line-height: var(--text-xl-line-height);
+  letter-spacing: -0.02em;
+}
+
+@utility display-2xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-black);
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl-line-height);
+  letter-spacing: -0.02em;
+}
+
+@utility display-3xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-black);
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl-line-height);
+  letter-spacing: -0.03em;
+}
+
+@utility display-4xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-black);
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl-line-height);
+  letter-spacing: -0.03em;
+}
+
+@utility display-5xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-black);
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl-line-height);
+  letter-spacing: -0.04em;
+}
+
+@utility display-6xl {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-black);
+  font-size: var(--text-6xl);
+  line-height: var(--text-6xl-line-height);
+  letter-spacing: -0.04em;
+}
+
+/* Semantic Text Color Utilities */
+@utility text-primary {
+  color: var(--color-text-primary);
+}
+
+@utility text-secondary {
+  color: var(--color-text-secondary);
+}
+
+@utility text-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+@utility text-disabled {
+  color: var(--color-text-disabled);
+}
+
+/* Background Utilities */
+@utility bg-surface {
+  background-color: var(--color-surface);
+}
+
+@utility bg-surface-elevated {
+  background-color: var(--color-surface-elevated);
+}
+
+/* Border Utilities */
+@utility border-default {
+  border-color: var(--color-border);
+}
+
+@utility border-hover {
+  border-color: var(--color-border-hover);
+}
+
+/* Max Width Utilities */
+@layer utilities {
+  .max-w-xs {
+    max-width: var(--max-w-xs);
+  }
+  .max-w-sm {
+    max-width: var(--max-w-sm);
+  }
+  .max-w-md {
+    max-width: var(--max-w-md);
+  }
+  .max-w-lg {
+    max-width: var(--max-w-lg);
+  }
+  .max-w-xl {
+    max-width: var(--max-w-xl);
+  }
+  .max-w-2xl {
+    max-width: var(--max-w-2xl);
+  }
+  .max-w-3xl {
+    max-width: var(--max-w-3xl);
+  }
+  .max-w-4xl {
+    max-width: var(--max-w-4xl);
+  }
+  .max-w-5xl {
+    max-width: var(--max-w-5xl);
+  }
+  .max-w-6xl {
+    max-width: var(--max-w-6xl);
+  }
+  .max-w-7xl {
+    max-width: var(--max-w-7xl);
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.4s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.2s ease-out;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(
+    to right,
+    var(--color-zinc-200) 0%,
+    var(--color-zinc-300) 20%,
+    var(--color-zinc-200) 40%,
+    var(--color-zinc-200) 100%
+  );
+  background-size: 1000px 100%;
+}
+
+.dark .animate-shimmer {
+  background: linear-gradient(
+    to right,
+    var(--color-zinc-800) 0%,
+    var(--color-zinc-700) 20%,
+    var(--color-zinc-800) 40%,
+    var(--color-zinc-800) 100%
+  );
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Prose Styles for Review Content */
+.prose {
+  max-width: 65ch;
+  color: var(--color-text-primary);
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+  margin-top: 2em;
+  margin-bottom: 1em;
+  line-height: 1.3;
+}
+
+.prose h1 {
+  font-size: var(--text-4xl);
+  line-height: var(--text-4xl-line-height);
+}
+
+.prose h2 {
+  font-size: var(--text-3xl);
+  line-height: var(--text-3xl-line-height);
+}
+
+.prose h3 {
+  font-size: var(--text-2xl);
+  line-height: var(--text-2xl-line-height);
+}
+
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  line-height: 1.75;
+}
+
+.prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: var(--font-weight-medium);
+}
+
+.prose a:hover {
+  color: var(--color-primary-hover);
+}
+
+.prose strong {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+  padding-left: 1.625em;
+}
+
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.prose blockquote {
+  font-style: italic;
+  border-left: 4px solid var(--color-border);
+  padding-left: 1em;
+  margin: 1.5em 0;
+  color: var(--color-text-secondary);
+}
+
+.prose img {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  border-radius: var(--rounded-lg);
+}
+
+.prose code {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded-sm);
+  padding: 0.2em 0.4em;
+  font-size: 0.875em;
+  font-family: var(--font-mono);
+}
+
+.prose pre {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--rounded-md);
+  padding: 1em;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.prose pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
 }

@@ -1,65 +1,214 @@
-import Image from "next/image";
+import RestaurantCard from "@/components/RestaurantCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Curd Your Enthusiasm - Madison, WI Restaurant Reviews",
+  description:
+    "Honest, fun restaurant reviews from around Madison, WI. Rated on a cheese curd scale because Wisconsin deserves better than boring stars.",
+  openGraph: {
+    title: "Curd Your Enthusiasm - Madison Restaurant Reviews",
+    description: "Honest, fun restaurant reviews from around Madison, WI.",
+    url: "https://curdyourenthusiasm.com",
+    siteName: "Curd Your Enthusiasm",
+    locale: "en_US",
+    type: "website",
+  },
+};
+
+// Mock data - later you'll fetch from MySQL
+interface FeaturedReview {
+  slug: string;
+  name: string;
+  neighborhood: string;
+  cuisine: string;
+  rating: number;
+  reviewSnippet: string;
+  visitDate: string;
+}
+
+const featuredReviews: FeaturedReview[] = [
+  // {
+  //   slug: 'merchant-madison',
+  //   name: 'Merchant',
+  //   neighborhood: 'Downtown',
+  //   cuisine: 'American',
+  //   rating: 4.5,
+  //   reviewSnippet: 'Incredible brunch spot with a rotating menu. The duck hash is absolutely worth the hype.',
+  //   visitDate: '2024-12-01'
+  // },
+  // Add more as you review restaurants
+];
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="bg-zinc-50 dark:bg-zinc-950">
+      {/* Hero Section with Gradient */}
+      <header className="relative overflow-hidden border-b border-zinc-200 bg-linear-to-br from-curd-50 via-white to-curd-100/50 dark:border-zinc-800 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-800">
+        {/* Animated background pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px]"></div>
+
+        <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-curd-200 bg-white/80 px-4 py-2 text-sm font-medium text-curd-700 backdrop-blur-sm dark:border-curd-800 dark:bg-zinc-900/80 dark:text-curd-400">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-curd-400 opacity-75"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-curd-500"></span>
+              </span>
+              New review every week
+            </div>
+
+            <h1 className="animate-fade-in-up text-6xl font-black tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-7xl">
+              <span className="inline-block">🧀</span> Curd Your{" "}
+              <span className="bg-linear-to-r from-curd-600 to-amber-600 bg-clip-text text-transparent dark:from-curd-400 dark:to-amber-400">
+                Enthusiasm
+              </span>
+            </h1>
+
+            <p className="mx-auto mt-6 max-w-2xl text-xl text-zinc-600 dark:text-zinc-400">
+              Madison&apos;s most honest restaurant reviews, rated on a cheese
+              curd scale.
+              <span className="block mt-2 text-base text-zinc-500">
+                Because Wisconsin deserves better than boring star ratings.
+              </span>
+            </p>
+
+            {/* Quick Stats */}
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-8">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-curd-600 dark:text-curd-400">
+                  0
+                </div>
+                <div className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Reviews
+                </div>
+              </div>
+              <div className="h-12 w-px bg-zinc-300 dark:bg-zinc-700"></div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-curd-600 dark:text-curd-400">
+                  0
+                </div>
+                <div className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Restaurants
+                </div>
+              </div>
+              <div className="h-12 w-px bg-zinc-300 dark:bg-zinc-700"></div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-curd-600 dark:text-curd-400">
+                  ∞
+                </div>
+                <div className="text-sm text-zinc-600 dark:text-zinc-400">
+                  Cheese Curds
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/8 px-5 transition-colors hover:border-transparent hover:bg-black/4 dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </header>
+
+      {/* Main Content */}
+      <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
+        {/* Enhanced Quick Filters */}
+        <div className="mb-10">
+          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+            Browse By
+          </h2>
+          <div className="flex flex-wrap gap-3">
+            <FilterButton href="/neighborhoods/downtown" icon="🏙️">
+              Downtown
+            </FilterButton>
+            <FilterButton href="/neighborhoods/east-side" icon="🌆">
+              East Side
+            </FilterButton>
+            <FilterButton href="/cuisine/american" icon="🍔">
+              American
+            </FilterButton>
+            <FilterButton href="/cuisine/italian" icon="🍝">
+              Italian
+            </FilterButton>
+            <FilterButton href="/best-of/brunch" icon="🥞" featured>
+              Best Brunch
+            </FilterButton>
+          </div>
         </div>
+
+        {/* Featured Reviews */}
+        <section className="animate-fade-in-up">
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <h2 className="text-3xl font-bold text-zinc-900 dark:text-zinc-50">
+                Latest Reviews
+              </h2>
+              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                Fresh takes on Madison&apos;s food scene
+              </p>
+            </div>
+          </div>
+
+          {featuredReviews.length > 0 ? (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredReviews.map((restaurant) => (
+                <RestaurantCard key={restaurant.slug} {...restaurant} />
+              ))}
+            </div>
+          ) : (
+            <div className="group relative overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-white p-16 text-center transition-all hover:border-curd-300 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-curd-700">
+              <div className="absolute inset-0 bg-linear-to-br from-curd-50/50 to-transparent opacity-0 transition-opacity group-hover:opacity-100 dark:from-curd-950/30"></div>
+              <div className="relative">
+                <div className="mb-4 text-6xl">🧀</div>
+                <h3 className="mb-2 text-xl font-bold text-zinc-900 dark:text-zinc-50">
+                  First Review Coming Soon!
+                </h3>
+                <p className="mx-auto max-w-md text-zinc-600 dark:text-zinc-400">
+                  I&apos;m gearing up to explore Madison&apos;s incredible food
+                  scene. Check back soon for the first cheese curd review!
+                </p>
+                <div className="mt-6 inline-flex items-center gap-2 rounded-full bg-curd-100 px-4 py-2 text-sm font-medium text-curd-700 dark:bg-curd-900/30 dark:text-curd-400">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-curd-400 opacity-75"></span>
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-curd-500"></span>
+                  </span>
+                  New reviews every week
+                </div>
+              </div>
+            </div>
+          )}
+        </section>
       </main>
     </div>
+  );
+}
+
+// Enhanced filter button component
+function FilterButton({
+  href,
+  children,
+  icon,
+  featured = false,
+}: {
+  href: string;
+  children: React.ReactNode;
+  icon?: string;
+  featured?: boolean;
+}) {
+  return (
+    <a
+      href={href}
+      className={`
+        group relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-5 py-2.5 text-sm font-medium
+        transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95
+        ${
+          featured
+            ? "border-2 border-curd-400 bg-linear-to-r from-curd-400 to-amber-400 text-white shadow-md hover:shadow-curd-400/50 dark:from-curd-500 dark:to-amber-500"
+            : "border border-zinc-300 bg-white text-zinc-700 hover:border-curd-300 hover:bg-curd-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-curd-700 dark:hover:bg-zinc-700"
+        }
+      `}
+    >
+      {icon && (
+        <span className="text-base transition-transform group-hover:scale-110">
+          {icon}
+        </span>
+      )}
+      <span>{children}</span>
+    </a>
   );
 }
