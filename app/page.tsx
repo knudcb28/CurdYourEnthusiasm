@@ -1,4 +1,5 @@
 import RestaurantCard from "@/components/RestaurantCard";
+import FilterButton from "@/components/FilterButton";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -107,69 +108,36 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
-        {/* Enhanced Quick Filters */}
-        <div className="mb-10 space-y-6">
-          {/* Popular Categories */}
-          <div>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-              Popular Searches
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              <FilterButton href="/categories/date-night" icon="💑">
-                Date Night
-              </FilterButton>
-              <FilterButton href="/categories/brunch" icon="🥞">
-                Best Brunch
-              </FilterButton>
-              <FilterButton href="/categories/outdoor-seating" icon="🌳">
-                Outdoor Seating
-              </FilterButton>
-              <FilterButton href="/categories/cheap-eats" icon="💵">
-                Cheap Eats
-              </FilterButton>
-              <FilterButton href="/categories/best-fish-fry" icon="🐟">
-                Fish Fry
-              </FilterButton>
-            </div>
-          </div>
-
-          {/* More Categories */}
-          <div>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-              Browse by Neighborhood
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              <FilterButton href="/neighborhoods/downtown" icon="🏙️">
-                Downtown
-              </FilterButton>
-              <FilterButton href="/neighborhoods/east-side" icon="🌆">
-                East Side
-              </FilterButton>
-              <FilterButton href="/neighborhoods/west-side" icon="🏘️">
-                West Side
-              </FilterButton>
-            </div>
-          </div>
-
-          {/* Cuisine Types */}
-          <div>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-              By Cuisine
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              <FilterButton href="/cuisine/american" icon="🍔">
-                American
-              </FilterButton>
-              <FilterButton href="/cuisine/italian" icon="🍝">
-                Italian
-              </FilterButton>
-              <FilterButton href="/cuisine/mexican" icon="🌮">
-                Mexican
-              </FilterButton>
-              <FilterButton href="/cuisine/asian" icon="🍜">
-                Asian
-              </FilterButton>
-            </div>
+        {/* Popular Searches */}
+        <div className="mb-10">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+            Popular Searches
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            <FilterButton href="/categories/date-night" icon="💑">
+              Date Night
+            </FilterButton>
+            <FilterButton href="/categories/brunch" icon="🥞">
+              Best Brunch
+            </FilterButton>
+            <FilterButton href="/categories/outdoor-seating" icon="🌳">
+              Outdoor Seating
+            </FilterButton>
+            <FilterButton href="/categories/cheap-eats" icon="💵">
+              Cheap Eats
+            </FilterButton>
+            <FilterButton href="/categories/best-fish-fry" icon="🐟">
+              Fish Fry
+            </FilterButton>
+            <FilterButton href="/dishes/cheese-curds" icon="🧀">
+              Cheese Curds
+            </FilterButton>
+            <FilterButton href="/dishes/old-fashioned" icon="🥃">
+              Old Fashioned
+            </FilterButton>
+            <FilterButton href="/dishes/pizza" icon="🍕">
+              Pizza
+            </FilterButton>
           </div>
         </div>
 
@@ -217,40 +185,5 @@ export default function Home() {
         </section>
       </main>
     </div>
-  );
-}
-
-// Enhanced filter button component
-function FilterButton({
-  href,
-  children,
-  icon,
-  featured = false,
-}: {
-  href: string;
-  children: React.ReactNode;
-  icon?: string;
-  featured?: boolean;
-}) {
-  return (
-    <a
-      href={href}
-      className={`
-        group relative inline-flex items-center gap-2 overflow-hidden rounded-xl px-5 py-2.5 text-sm font-medium
-        transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95
-        ${
-          featured
-            ? "border-2 border-curd-400 bg-linear-to-r from-curd-400 to-amber-400 text-white shadow-md hover:shadow-curd-400/50 dark:from-curd-500 dark:to-amber-500"
-            : "border border-zinc-300 bg-white text-zinc-700 hover:border-curd-300 hover:bg-curd-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-curd-700 dark:hover:bg-zinc-700"
-        }
-      `}
-    >
-      {icon && (
-        <span className="text-base transition-transform group-hover:scale-110">
-          {icon}
-        </span>
-      )}
-      <span>{children}</span>
-    </a>
   );
 }

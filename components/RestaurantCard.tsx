@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import CurdRating from './CurdRating';
+import { useRouter } from 'next/navigation';
 
 interface RestaurantCardProps {
   slug: string;
@@ -23,9 +26,25 @@ export default function RestaurantCard({
   reviewSnippet,
   visitDate
 }: RestaurantCardProps) {
+  const router = useRouter();
+
+  const handleCompare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    router.push(`/compare?restaurants=${slug}`);
+  };
+
   return (
     <Link href={`/restaurants/${slug}`} className="group">
       <article className="relative h-full overflow-hidden rounded-xl border border-zinc-200 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-curd-200/50 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:shadow-curd-900/30">
+        {/* Compare Button */}
+        <button
+          onClick={handleCompare}
+          className="absolute right-3 top-3 z-10 rounded-lg bg-white/90 px-3 py-1.5 text-xs font-semibold text-zinc-700 opacity-0 shadow-lg backdrop-blur-sm transition-all hover:bg-curd-400 hover:text-zinc-900 group-hover:opacity-100 dark:bg-zinc-900/90 dark:text-zinc-300 dark:hover:bg-curd-400 dark:hover:text-zinc-900"
+          title="Add to compare"
+        >
+          ⚖️ Compare
+        </button>
         {imageUrl && (
           <div className="relative aspect-video w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
             <Image

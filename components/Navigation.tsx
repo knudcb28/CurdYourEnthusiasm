@@ -29,14 +29,24 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-8 md:flex">
             <Link
-              href="/"
+              href="/reviews"
               className={`text-sm font-medium transition-colors ${
-                isActive("/")
+                isActive("/reviews")
                   ? "text-curd-600 dark:text-curd-400"
                   : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
               }`}
             >
-              Reviews
+              All Reviews
+            </Link>
+            <Link
+              href="/compare"
+              className={`text-sm font-medium transition-colors ${
+                isActive("/compare")
+                  ? "text-curd-600 dark:text-curd-400"
+                  : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-50"
+              }`}
+            >
+              Compare
             </Link>
             <Link
               href="/top-100"

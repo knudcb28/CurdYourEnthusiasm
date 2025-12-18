@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 /* Lets the dark mode be controlled by a `dark` class on the html element (or parent element) */
 @custom-variant dark (&:where(.dark, .dark *));
