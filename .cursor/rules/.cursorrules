@@ -1,0 +1,29 @@
+# .cursorrules
+applyTo: "**"
+
+rules:
+  - Do not create test files unless explicitly asked.
+  - Never create README, documentation, or explanatory .MD files unless explicitly asked.
+  - Use Tailwind CSS v4 classes for styling when appropriate.
+  - Avoid outdated React code patterns or libraries:
+      * Do not use class components.
+      * Prefer functional components with hooks.
+  - Do not use React.FC or React.FunctionComponent. Use plain modern function components instead.
+  - Prefer function declarations over function expressions when possible.
+  - When adding imports, use the `@` alias for the `src` directory; avoid relative paths like `../../`.
+  - Ensure mathematical calculations and logic are correct.
+  - Do not automatically agree with the user's suggestions or assume they're on the right path. Always critically evaluate the user's input and provide constructive feedback or alternative suggestions.
+  - Code must be compatible with React 19 and TypeScript, following the latest standards and best practices.
+  - Follow ESLint and Prettier rules to ensure clean, consistent formatting.
+  - Never write tests, install testing packages, or run the dev server to check for errors unless explicitly asked to do so.
+  - Remove unused imports, functions, and variables to keep the codebase clean.
+  - When writing functions with multiple parameters, use the pattern called "object destructuring parameters" or "options object pattern".
+  - Do not start up dev servers. Assume one is always running already.
+  - Do not try to build the project.
+  - When adding the types or interfaces for components, always use the name Props for the interface or type for simplicity and consistency.
+  - This project uses React 19 so please do not suggest any performance optimization are unnecessary with that version. But don't hold back on suggesting performance optimizations that are not covered by React 19 improvements.
+
+context:
+  project:
+    description: >
+      This project is a restaraunt ratings tool. It is designed to help users choose restaraunts to go to in the Madison, WI area. 
