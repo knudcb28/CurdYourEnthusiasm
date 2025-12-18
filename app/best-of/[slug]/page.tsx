@@ -1,9 +1,11 @@
 import { Metadata } from 'next';
 import RestaurantCard from '@/components/RestaurantCard';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  // TODO: Fetch list title from database
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  // TODO: Fetch list title from database using slug
   const listTitle = 'Best Brunch Spots in Madison';
+  console.log('Best-of slug:', slug); // For debugging
   
   return {
     title: `${listTitle} - Curd Your Enthusiasm`,
@@ -11,8 +13,10 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function BestOfPage({ params }: { params: { slug: string } }) {
-  // TODO: Fetch list and restaurants from MySQL
+export default async function BestOfPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  // TODO: Fetch list and restaurants from MySQL using slug
+  console.log('Best-of slug:', slug); // For debugging
   const list = {
     title: 'Best Brunch Spots in Madison',
     description: 'These are my top picks for brunch in Madison. From classic American to creative fusion, these spots deliver every time.',

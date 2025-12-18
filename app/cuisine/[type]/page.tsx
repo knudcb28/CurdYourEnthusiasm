@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
 import RestaurantCard from '@/components/RestaurantCard';
 
-export async function generateMetadata({ params }: { params: { type: string } }): Promise<Metadata> {
-  const cuisineName = params.type.charAt(0).toUpperCase() + params.type.slice(1);
+export async function generateMetadata({ params }: { params: Promise<{ type: string }> }): Promise<Metadata> {
+  const { type } = await params;
+  const cuisineName = type.charAt(0).toUpperCase() + type.slice(1);
   
   return {
     title: `Best ${cuisineName} Restaurants in Madison, WI`,
@@ -10,11 +11,23 @@ export async function generateMetadata({ params }: { params: { type: string } })
   };
 }
 
-export default async function CuisinePage({ params }: { params: { type: string } }) {
-  const cuisineName = params.type.charAt(0).toUpperCase() + params.type.slice(1);
+interface Restaurant {
+  slug: string;
+  name: string;
+  neighborhood: string;
+  cuisine: string;
+  rating: number;
+  imageUrl?: string;
+  reviewSnippet?: string;
+  visitDate?: string;
+}
+
+export default async function CuisinePage({ params }: { params: Promise<{ type: string }> }) {
+  const { type } = await params;
+  const cuisineName = type.charAt(0).toUpperCase() + type.slice(1);
   
   // TODO: Fetch from MySQL
-  const restaurants: any[] = [];
+  const restaurants: Restaurant[] = [];
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">

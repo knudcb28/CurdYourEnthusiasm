@@ -108,26 +108,68 @@ export default function Home() {
       {/* Main Content */}
       <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8">
         {/* Enhanced Quick Filters */}
-        <div className="mb-10">
-          <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
-            Browse By
-          </h2>
-          <div className="flex flex-wrap gap-3">
-            <FilterButton href="/neighborhoods/downtown" icon="🏙️">
-              Downtown
-            </FilterButton>
-            <FilterButton href="/neighborhoods/east-side" icon="🌆">
-              East Side
-            </FilterButton>
-            <FilterButton href="/cuisine/american" icon="🍔">
-              American
-            </FilterButton>
-            <FilterButton href="/cuisine/italian" icon="🍝">
-              Italian
-            </FilterButton>
-            <FilterButton href="/best-of/brunch" icon="🥞" featured>
-              Best Brunch
-            </FilterButton>
+        <div className="mb-10 space-y-6">
+          {/* Popular Categories */}
+          <div>
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+              Popular Searches
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              <FilterButton href="/categories/date-night" icon="💑">
+                Date Night
+              </FilterButton>
+              <FilterButton href="/categories/brunch" icon="🥞">
+                Best Brunch
+              </FilterButton>
+              <FilterButton href="/categories/outdoor-seating" icon="🌳">
+                Outdoor Seating
+              </FilterButton>
+              <FilterButton href="/categories/cheap-eats" icon="💵">
+                Cheap Eats
+              </FilterButton>
+              <FilterButton href="/categories/best-fish-fry" icon="🐟">
+                Fish Fry
+              </FilterButton>
+            </div>
+          </div>
+
+          {/* More Categories */}
+          <div>
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+              Browse by Neighborhood
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              <FilterButton href="/neighborhoods/downtown" icon="🏙️">
+                Downtown
+              </FilterButton>
+              <FilterButton href="/neighborhoods/east-side" icon="🌆">
+                East Side
+              </FilterButton>
+              <FilterButton href="/neighborhoods/west-side" icon="🏘️">
+                West Side
+              </FilterButton>
+            </div>
+          </div>
+
+          {/* Cuisine Types */}
+          <div>
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+              By Cuisine
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              <FilterButton href="/cuisine/american" icon="🍔">
+                American
+              </FilterButton>
+              <FilterButton href="/cuisine/italian" icon="🍝">
+                Italian
+              </FilterButton>
+              <FilterButton href="/cuisine/mexican" icon="🌮">
+                Mexican
+              </FilterButton>
+              <FilterButton href="/cuisine/asian" icon="🍜">
+                Asian
+              </FilterButton>
+            </div>
           </div>
         </div>
 
