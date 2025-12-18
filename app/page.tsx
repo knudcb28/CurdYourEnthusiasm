@@ -1,6 +1,7 @@
-import RestaurantCard from "@/components/RestaurantCard";
+import FeaturedReviewCard from "@/components/FeaturedReviewCard";
 import FilterButton from "@/components/FilterButton";
 import { Metadata } from "next";
+import { getAllRestaurants, getFeaturedReviews } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Curd Your Enthusiasm - Madison, WI Restaurant Reviews",
@@ -16,31 +17,35 @@ export const metadata: Metadata = {
   },
 };
 
-// Mock data - later you'll fetch from MySQL
 interface FeaturedReview {
+  id: number;
   slug: string;
   name: string;
-  neighborhood: string;
-  cuisine: string;
-  rating: number;
-  reviewSnippet: string;
-  visitDate: string;
+  neighborhood_name: string;
+  cuisine_name: string;
+  overall_rating: number;
+  food_quality?: number;
+  atmosphere?: number;
+  service?: number;
+  value?: number;
+  review_body: string;
+  visit_date: string;
+  featured_image_url?: string;
+  price_range: string;
+  dishes_tried?: string;
 }
 
-const featuredReviews: FeaturedReview[] = [
-  // {
-  //   slug: 'merchant-madison',
-  //   name: 'Merchant',
-  //   neighborhood: 'Downtown',
-  //   cuisine: 'American',
-  //   rating: 4.5,
-  //   reviewSnippet: 'Incredible brunch spot with a rotating menu. The duck hash is absolutely worth the hype.',
-  //   visitDate: '2024-12-01'
-  // },
-  // Add more as you review restaurants
-];
+export default async function Home() {
+  // Fetch featured reviews with full data
+  const reviewsData = await getFeaturedReviews(3);
+  const featuredReviews = reviewsData as FeaturedReview[];
 
-export default function Home() {
+  // Also fetch total count for stats
+  const restaurantsData = await getAllRestaurants();
+  const totalRestaurants = Array.isArray(restaurantsData)
+    ? restaurantsData.length
+    : 0;
+
   return (
     <div className="bg-zinc-50 dark:bg-zinc-950">
       {/* Hero Section with Gradient */}
@@ -77,25 +82,27 @@ export default function Home() {
             <div className="mt-10 flex flex-wrap items-center justify-center gap-8">
               <div className="text-center">
                 <div className="text-3xl font-bold text-curd-600 dark:text-curd-400">
-                  0
+                  {totalRestaurants}
                 </div>
                 <div className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Reviews
+                  {totalRestaurants === 1 ? "Review" : "Reviews"}
                 </div>
               </div>
               <div className="h-12 w-px bg-zinc-300 dark:bg-zinc-700"></div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-curd-600 dark:text-curd-400">
-                  0
+                  {totalRestaurants}
                 </div>
                 <div className="text-sm text-zinc-600 dark:text-zinc-400">
-                  Restaurants
+                  {totalRestaurants === 1 ? "Restaurant" : "Restaurants"}
                 </div>
               </div>
               <div className="h-12 w-px bg-zinc-300 dark:bg-zinc-700"></div>
               <div className="text-center">
                 <div className="text-3xl font-bold text-curd-600 dark:text-curd-400">
-                  ∞
+                  {totalRestaurants > 0
+                    ? (totalRestaurants * 5).toLocaleString()
+                    : "∞"}
                 </div>
                 <div className="text-sm text-zinc-600 dark:text-zinc-400">
                   Cheese Curds
@@ -155,10 +162,38 @@ export default function Home() {
           </div>
 
           {featuredReviews.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredReviews.map((restaurant) => (
-                <RestaurantCard key={restaurant.slug} {...restaurant} />
-              ))}
+            <div className="space-y-8">
+              {featuredReviews.map((review) => {
+                // Parse dishes_tried JSON string if it exists
+                let dishesArray: string[] = [];
+                if (review.dishes_tried) {
+                  try {
+                    dishesArray = JSON.parse(review.dishes_tried);
+                  } catch {
+                    dishesArray = [];
+                  }
+                }
+
+                return (
+                  <FeaturedReviewCard
+                    key={review.slug}
+                    slug={review.slug}
+                    name={review.name}
+                    neighborhood={review.neighborhood_name}
+                    cuisine={review.cuisine_name}
+                    rating={review.overall_rating}
+                    reviewBody={review.review_body}
+                    visitDate={review.visit_date}
+                    priceRange={review.price_range}
+                    featuredImageUrl={review.featured_image_url}
+                    foodQuality={review.food_quality}
+                    atmosphere={review.atmosphere}
+                    service={review.service}
+                    value={review.value}
+                    dishiesTried={dishesArray}
+                  />
+                );
+              })}
             </div>
           ) : (
             <div className="group relative overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-white p-16 text-center transition-all hover:border-curd-300 dark:border-zinc-700 dark:bg-zinc-900 dark:hover:border-curd-700">

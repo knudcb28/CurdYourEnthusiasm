@@ -1,33 +1,34 @@
 // MySQL Database Connection
 // Using mysql2/promise for async/await support
 
-import mysql from 'mysql2/promise';
+import mysql from "mysql2/promise";
 
 // Create a connection pool
 const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'curd_your_enthusiasm',
-  port: parseInt(process.env.DB_PORT || '3306'),
+  host: process.env.DB_HOST || "localhost",
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASSWORD || "",
+  database: process.env.DB_NAME || "curd_your_enthusiasm",
+  port: parseInt(process.env.DB_PORT || "3306"),
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
 });
 
 // Test the connection
-pool.getConnection()
-  .then(connection => {
-    console.log('✅ Database connected successfully');
+pool
+  .getConnection()
+  .then((connection) => {
+    console.log("✅ Database connected successfully");
     connection.release();
   })
-  .catch(err => {
-    console.error('❌ Database connection failed:', err.message);
+  .catch((err) => {
+    console.error("❌ Database connection failed:", err.message);
   });
 
 export default pool;
 
-// Example query functions you can use:
+// Query functions:
 
 /**
  * Get all restaurants with their reviews
@@ -42,10 +43,46 @@ export async function getAllRestaurants() {
 }
 
 /**
+ * Get detailed reviews for homepage (includes full review body)
+ */
+export async function getFeaturedReviews(limit: number = 3) {
+  const [rows] = await pool.query(
+    `
+    SELECT 
+      r.id,
+      r.slug,
+      r.name,
+      r.featured_image_url,
+      r.price_range,
+      n.name as neighborhood_name,
+      c.name as cuisine_name,
+      rev.overall_rating,
+      rev.food_quality,
+      rev.atmosphere,
+      rev.service,
+      rev.value,
+      rev.review_body,
+      rev.review_snippet,
+      rev.visit_date,
+      rev.dishes_tried
+    FROM restaurants r
+    INNER JOIN reviews rev ON r.id = rev.restaurant_id AND rev.published = TRUE
+    LEFT JOIN neighborhoods n ON r.neighborhood_id = n.id
+    LEFT JOIN cuisines c ON r.cuisine_id = c.id
+    ORDER BY rev.visit_date DESC
+    LIMIT ?
+  `,
+    [limit]
+  );
+  return rows;
+}
+
+/**
  * Get a single restaurant by slug
  */
 export async function getRestaurantBySlug(slug: string) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT 
       r.*,
       n.name as neighborhood_name,
@@ -69,8 +106,10 @@ export async function getRestaurantBySlug(slug: string) {
     LEFT JOIN cuisines c ON r.cuisine_id = c.id
     LEFT JOIN reviews rev ON r.id = rev.restaurant_id AND rev.published = TRUE
     WHERE r.slug = ?
-  `, [slug]);
-  
+  `,
+    [slug]
+  );
+
   if (Array.isArray(rows) && rows.length > 0) {
     return rows[0];
   }
@@ -81,12 +120,15 @@ export async function getRestaurantBySlug(slug: string) {
  * Get restaurant features/tags
  */
 export async function getRestaurantFeatures(restaurantId: number) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT f.slug, f.name, f.icon, f.category
     FROM restaurant_features rf
     JOIN features f ON rf.feature_id = f.id
     WHERE rf.restaurant_id = ?
-  `, [restaurantId]);
+  `,
+    [restaurantId]
+  );
   return rows;
 }
 
@@ -94,11 +136,14 @@ export async function getRestaurantFeatures(restaurantId: number) {
  * Get restaurants by neighborhood
  */
 export async function getRestaurantsByNeighborhood(neighborhoodSlug: string) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT * FROM v_restaurants_full 
     WHERE neighborhood_slug = ? AND overall_rating IS NOT NULL
     ORDER BY overall_rating DESC
-  `, [neighborhoodSlug]);
+  `,
+    [neighborhoodSlug]
+  );
   return rows;
 }
 
@@ -106,11 +151,14 @@ export async function getRestaurantsByNeighborhood(neighborhoodSlug: string) {
  * Get restaurants by cuisine
  */
 export async function getRestaurantsByCuisine(cuisineSlug: string) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT * FROM v_restaurants_full 
     WHERE cuisine_slug = ? AND overall_rating IS NOT NULL
     ORDER BY overall_rating DESC
-  `, [cuisineSlug]);
+  `,
+    [cuisineSlug]
+  );
   return rows;
 }
 
@@ -118,10 +166,13 @@ export async function getRestaurantsByCuisine(cuisineSlug: string) {
  * Get top rated restaurants
  */
 export async function getTopRestaurants(limit: number = 100) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT * FROM v_top_restaurants 
     LIMIT ?
-  `, [limit]);
+  `,
+    [limit]
+  );
   return rows;
 }
 
@@ -129,7 +180,8 @@ export async function getTopRestaurants(limit: number = 100) {
  * Search restaurants by name, neighborhood, or cuisine
  */
 export async function searchRestaurants(searchTerm: string) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT * FROM v_restaurants_full 
     WHERE (
       name LIKE ? OR 
@@ -138,7 +190,9 @@ export async function searchRestaurants(searchTerm: string) {
     )
     AND overall_rating IS NOT NULL
     ORDER BY overall_rating DESC
-  `, [`%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`]);
+  `,
+    [`%${searchTerm}%`, `%${searchTerm}%`, `%${searchTerm}%`]
+  );
   return rows;
 }
 
@@ -146,13 +200,15 @@ export async function searchRestaurants(searchTerm: string) {
  * Get restaurants with a specific feature
  */
 export async function getRestaurantsByFeature(featureSlug: string) {
-  const [rows] = await pool.query(`
+  const [rows] = await pool.query(
+    `
     SELECT DISTINCT r.* FROM v_restaurants_full r
     JOIN restaurant_features rf ON r.id = rf.restaurant_id
     JOIN features f ON rf.feature_id = f.id
     WHERE f.slug = ? AND r.overall_rating IS NOT NULL
     ORDER BY r.overall_rating DESC
-  `, [featureSlug]);
+  `,
+    [featureSlug]
+  );
   return rows;
 }
-

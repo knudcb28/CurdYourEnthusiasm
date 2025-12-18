@@ -31,30 +31,33 @@ interface RestaurantData {
 export default function ComparePageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selectedSlugs, setSelectedSlugs] = useState<string[]>([]);
+
+  // Derive slugs directly from URL params (no local state needed for this)
+  const slugsParam = searchParams.get("restaurants");
+  const slugsFromUrl = slugsParam ? slugsParam.split(",").slice(0, 3) : [];
+  const slugsKey = slugsFromUrl.join(","); // For useEffect dependency
+
   const [restaurants, setRestaurants] = useState<RestaurantData[]>([]);
 
-  // Initialize from URL params
+  // Fetch restaurant data when URL params change
   useEffect(() => {
-    const slugsParam = searchParams.get("restaurants");
-    if (slugsParam) {
-      const slugs = slugsParam.split(",").slice(0, 3);
-      setSelectedSlugs(slugs);
+    if (slugsFromUrl.length > 0) {
       // TODO: Fetch restaurant data from MySQL
-      // const data = await fetchRestaurants(slugs);
+      // const data = await fetchRestaurants(slugsFromUrl);
       // setRestaurants(data);
+    } else {
+      setRestaurants([]);
     }
-  }, [searchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slugsKey]);
 
-  // Update URL when selection changes
+  // Update URL when selection changes (state will update via searchParams)
   const handleSelectionChange = (slugs: string[]) => {
-    setSelectedSlugs(slugs);
     if (slugs.length > 0) {
       router.push(`/compare?restaurants=${slugs.join(",")}`);
     } else {
       router.push("/compare");
     }
-    // TODO: Fetch restaurant data
   };
 
   const categories = [
@@ -100,7 +103,7 @@ export default function ComparePageClient() {
         {/* Restaurant Selector */}
         <div className="mb-8">
           <RestaurantSelector
-            selectedSlugs={selectedSlugs}
+            selectedSlugs={slugsFromUrl}
             onSelect={handleSelectionChange}
             maxSelections={3}
           />
@@ -152,7 +155,10 @@ export default function ComparePageClient() {
               </div>
               <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
                 {categories.map((category) => (
-                  <div key={category.key} className="grid grid-cols-2 lg:grid-cols-3">
+                  <div
+                    key={category.key}
+                    className="grid grid-cols-2 lg:grid-cols-3"
+                  >
                     {restaurants.map((restaurant, idx) => (
                       <div
                         key={restaurant.slug}
@@ -282,13 +288,17 @@ export default function ComparePageClient() {
                 <input
                   type="text"
                   readOnly
-                  value={`${window.location.origin}/compare?restaurants=${selectedSlugs.join(",")}`}
+                  value={`${
+                    window.location.origin
+                  }/compare?restaurants=${slugsFromUrl.join(",")}`}
                   className="flex-1 rounded-lg border border-zinc-300 bg-zinc-50 px-4 py-2 text-sm dark:border-zinc-700 dark:bg-zinc-800"
                 />
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/compare?restaurants=${selectedSlugs.join(",")}`
+                      `${
+                        window.location.origin
+                      }/compare?restaurants=${slugsFromUrl.join(",")}`
                     );
                   }}
                   className="rounded-lg bg-curd-400 px-6 py-2 font-semibold text-zinc-900 transition-colors hover:bg-curd-500"
@@ -298,7 +308,7 @@ export default function ComparePageClient() {
               </div>
             </div>
           </div>
-        ) : selectedSlugs.length === 1 ? (
+        ) : slugsFromUrl.length === 1 ? (
           <div className="flex min-h-[300px] items-center justify-center rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900">
             <div className="text-center">
               <div className="mb-4 text-6xl">🧀</div>
@@ -327,4 +337,3 @@ export default function ComparePageClient() {
     </div>
   );
 }
-

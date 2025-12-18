@@ -22,6 +22,7 @@ SHOW TABLES;
 ```
 
 You should see:
+
 - `best_of_list_items`
 - `best_of_lists`
 - `cuisines`
@@ -40,11 +41,11 @@ Here's an example SQL to add your first restaurant:
 ```sql
 -- Example: Adding Merchant (Downtown Madison)
 INSERT INTO restaurants (
-  name, 
-  slug, 
+  name,
+  slug,
   address,
-  neighborhood_id, 
-  cuisine_id, 
+  neighborhood_id,
+  cuisine_id,
   price_range,
   latitude,
   longitude,
@@ -131,7 +132,7 @@ SELECT * FROM v_restaurants_full;
 SELECT * FROM v_top_restaurants;
 
 -- Get a specific restaurant with all details
-SELECT 
+SELECT
   r.*,
   n.name as neighborhood,
   c.name as cuisine,
@@ -193,4 +194,3 @@ FROM restaurants r
 LEFT JOIN reviews rev ON r.id = rev.restaurant_id
 WHERE rev.id IS NULL;
 ```
-

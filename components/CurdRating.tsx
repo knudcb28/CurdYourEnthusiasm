@@ -1,5 +1,5 @@
 interface CurdRatingProps {
-  rating: number; // 0-5
+  rating: number | null | undefined; // 0-5
   size?: "sm" | "md" | "lg";
   showNumber?: boolean;
 }
@@ -9,6 +9,9 @@ export default function CurdRating({
   size = "md",
   showNumber = false,
 }: CurdRatingProps) {
+  // Handle null/undefined ratings
+  const validRating = rating ?? 0;
+
   const sizeClasses = {
     sm: "text-lg",
     md: "text-2xl",
@@ -16,8 +19,8 @@ export default function CurdRating({
   };
 
   const curds = Array.from({ length: 5 }, (_, i) => {
-    if (i < Math.floor(rating)) return "full";
-    if (i < rating) return "half";
+    if (i < Math.floor(validRating)) return "full";
+    if (i < validRating) return "half";
     return "empty";
   });
 
@@ -32,7 +35,7 @@ export default function CurdRating({
       </div>
       {showNumber && (
         <span className="ml-2 text-sm font-semibold text-zinc-600 dark:text-zinc-400">
-          {rating.toFixed(1)}
+          {validRating ? validRating : "N/A"}
         </span>
       )}
     </div>
